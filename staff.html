@@ -1,0 +1,120 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Staff Panel - Frag Scrims</title>
+  <style>
+    body {
+      background-color: #0b0d14;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 40px;
+    }
+
+    h1, h2 {
+      color: #1E90FF;
+    }
+
+    .section {
+      margin-bottom: 40px;
+    }
+
+    .command-box {
+      background-color: #1c1e26;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 10px;
+      box-shadow: 0 0 5px #1E90FF;
+    }
+
+    .command-box code {
+      background-color: #2d2f36;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-family: monospace;
+      color: #1E90FF;
+    }
+
+    .back-btn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      padding: 10px 20px;
+      font-size: 0.95rem;
+      background-color: #2d2f36;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background-color: #3f4149;
+    }
+  </style>
+</head>
+<body>
+
+  <button class="back-btn" onclick="goBack()">⬅ Back</button>
+
+  <h1>Staff Panel - Frag Scrims</h1>
+
+  <div class="section">
+    <h2>Moderation Commands</h2>
+
+    <div class="command-box">
+      <strong><code>!kick [user] [reason]</code></strong><br>
+      Kicks a user from the server.
+    </div>
+
+    <div class="command-box">
+      <strong><code>!ban [user] [reason]</code></strong><br>
+      Bans a user from the server.
+    </div>
+
+    <div class="command-box">
+      <strong><code>!mute [user] [duration]</code></strong><br>
+      Temporarily mutes a user (e.g., <code>.mute @user 10m</code>).
+    </div>
+
+    <div class="command-box">
+      <strong><code>!unmute [user]</code></strong><br>
+      Unmutes a muted user.
+    </div>
+
+    <div class="command-box">
+      <strong><code>!warn [user] [reason]</code></strong><br>
+      Issues a warning to a user.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Ticket Bot</h2>
+
+    <div class="command-box">
+      <strong><code>.c</code></strong><br>
+      Closes the current ticket and logs the transcript.
+    </div>
+
+    <div class="command-box">
+      <strong><code>.r [message]</code></strong><br>
+      Sends a reply to a modmail ticket.
+    </div>
+
+    <div class="command-box">
+      <strong><code>.ar [message]</code></strong><br>
+      Sends an anonymous reply to a modmail ticket.
+    </div>
+  </div>
+
+  <script>
+    function goBack() {
+      window.location.href = "index.html"; // change to your actual home or login page
+    }
+  </script>
+
+</body>
+</html>

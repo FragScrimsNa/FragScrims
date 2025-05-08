@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign In - Frag Scrims</title>
+  <style>
+    body {
+      background-color: #0b0d14;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      padding: 40px;
+    }
+
+    h1 {
+      color: #1E90FF;
+      margin-bottom: 20px;
+    }
+
+    .signin-btn {
+      padding: 12px 30px;
+      font-size: 1.1rem;
+      background-color: #1E90FF;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      margin: 10px;
+      transition: background-color 0.3s ease;
+    }
+
+    .signin-btn:hover {
+      background-color: #5865F2;
+    }
+
+    .home-btn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      padding: 10px 20px;
+      font-size: 0.95rem;
+      background-color: #2d2f36;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .home-btn:hover {
+      background-color: #3f4149;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Home Button -->
+  <button class="home-btn" onclick="goHome()">🏠 Home</button>
+
+  <h1>Sign In to Frag Scrims</h1>
+
+  <!-- Sign-In Buttons for Staff and Admin -->
+  <div>
+    <button class="signin-btn" onclick="signIn('staff')">Staff Sign-In</button>
+    <button class="signin-btn" onclick="signIn('admin')">Admin Sign-In</button>
+  </div>
+
+  <script>
+    let staffPassword = null;
+    let adminPassword = null;
+
+    function loadPasswords() {
+      fetch('staff.json')
+        .then(response => response.json())
+        .then(data => {
+          staffPassword = data.password;
+        })
+        .catch(error => {
+          console.error('Error loading staff password:', error);
+        });
+
+      fetch('admin.json')
+        .then(response => response.json())
+        .then(data => {
+          adminPassword = data.password;
+        })
+        .catch(error => {
+          console.error('Error loading admin password:', error);
+        });
+    }
+
+    window.onload = loadPasswords;
+
+    function signIn(role) {
+      let password = "";
+
+      if (role === 'staff') {
+        password = prompt("Enter the staff password:");
+      } else if (role === 'admin') {
+        password = prompt("Enter the admin password:");
+      }
+
+      if (staffPassword === null || adminPassword === null) {
+        alert("Passwords are still loading, please try again.");
+        return;
+      }
+
+      if (role === 'staff' && password === staffPassword) {
+        alert("✅ Staff access granted!");
+        window.location.href = "staff.html"; // redirect to staff page
+      } else if (role === 'admin' && password === adminPassword) {
+        alert("✅ Admin access granted!");
+        window.location.href = "admin.html"; // redirect to admin page
+      } else {
+        alert("❌ Incorrect password.");
+      }
+    }
+
+    function goHome() {
+      window.location.href = "index.html"; // adjust this if your home page has a different file name
+    }
+  </script>
+
+</body>
+</html>

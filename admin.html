@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Panel - Frag Scrims</title>
+  <style>
+    body {
+      background-color: #0b0d14;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 40px;
+      text-align: center;
+    }
+
+    h1, h2 {
+      color: #1E90FF;
+    }
+
+    iframe {
+      border: none;
+      width: 100%;
+      max-width: 900px;
+      height: 600px;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+
+    .home-btn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background-color: #1E90FF;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 8px;
+      transition: background-color 0.3s ease;
+    }
+
+    .home-btn:hover {
+      background-color: #5865F2;
+    }
+
+    .section {
+      margin-top: 40px;
+      margin-bottom: 40px;
+    }
+
+    .account-box {
+      background-color: #1c1e26;
+      padding: 20px;
+      border-radius: 12px;
+      margin: 20px auto;
+      max-width: 500px;
+      box-shadow: 0 0 5px #1E90FF;
+      text-align: left;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .account-box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 15px #1E90FF;
+    }
+
+    /* Ban table */
+    table {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      border-collapse: collapse;
+      background-color: #1c1e26;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 0 5px #1E90FF;
+    }
+
+    th, td {
+      padding: 12px;
+      border: 1px solid #2c2f36;
+      color: #ffffff;
+    }
+
+    th {
+      background-color: #1E90FF;
+    }
+
+    tr:nth-child(even) {
+      background-color: #11131a;
+    }
+
+    .no-data {
+      font-size: 1.2em;
+      color: #f44336;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #0e1117;
+      border-top: 1px solid #1E90FF;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <a href="index.html" class="home-btn">⬅ Home</a>
+
+  <h1>Admin Panel - Calendar & Accounts</h1>
+  <p>View scrims, tournaments, linked admin accounts, and banned users.</p>
+
+  <iframe src="https://calendar.google.com/calendar/embed?src=fragnascrims%40gmail.com&ctz=America%2FDenver" frameborder="0" scrolling="no"></iframe>
+
+
+  <!-- Banned Users Section -->
+  <div id="ban-section" class="section">
+    <h2>Banned Users</h2>
+    <table id="banTable">
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>User ID</th>
+          <th>Banned By</th>
+          <th>Timestamp</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <script>
+
+    // Fetch ban data
+    function fetchBanData() {
+      fetch('http://localhost:3000/bans')
+        .then(res => res.json())
+        .then(bans => {
+          const tbody = document.querySelector('#banTable tbody');
+          tbody.innerHTML = '';
+          if (!bans || !Array.isArray(bans)) {
+            tbody.innerHTML = "<tr><td colspan='4' class='no-data'>No bans found.</td></tr>";
+            return;
+          }
+
+          bans.reverse().forEach(ban => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td>${ban.username}</td>
+              <td>${ban.userId}</td>
+              <td>${ban.bannedBy}</td>
+              <td>${new Date(ban.timestamp).toLocaleString()}</td>
+            `;
+            tbody.appendChild(row);
+          });
+        })
+        .catch(err => {
+          console.error("Failed to load ban info:", err);
+          const tbody = document.querySelector('#banTable tbody');
+          tbody.innerHTML = "<tr><td colspan='4' class='no-data'>❌ Error loading bans.</td></tr>";
+        });
+    }
+
+    fetchBanData();
+    setInterval(fetchBanData, 30000);
+  </script>
+
+  <div class="footer">
+    &copy; Frag Scrims Admin Panel
+  </div>
+</body>
+</html>
